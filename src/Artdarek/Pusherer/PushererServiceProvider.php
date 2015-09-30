@@ -29,36 +29,33 @@ class PushererServiceProvider extends ServiceProvider {
 	 *
 	 * @return Pusher $pusher
 	 */
-	public function register() {
-
+	public function register()
+	{
 	    // Register 'pushera' instance container to our 'Pusherer' object
-		    $this->app['pusherer'] = $this->app->share(function($app)
-		    {
+		$this->app['pusherer'] = $this->app->share(function($app)
+		{
+		    // connection credentials loaded from config
+	        $app_id      = Config::get('pusherer::app_id');
+	        $app_key     = Config::get('pusherer::key');
+	        $app_secret  = Config::get('pusherer::secret');
+	        $app_host    = Config::get('pusherer::host');
+	        $app_port    = Config::get('pusherer::port');
+	        $app_debug   = Config::get('pusherer::debug');
+	        $app_timeout = Config::get('pusherer::timeout');
 
-		    	// connection credentials loaded from config
-	                $app_id = Config::get('pusherer::app_id');
-	                $app_key = Config::get('pusherer::key');		
-	                $app_secret = Config::get('pusherer::secret');
-	                $app_host = Config::get('pusherer::host');	
-	                $app_port = Config::get('pusherer::port');
-	                $app_debug = Config::get('pusherer::debug');
-	                $app_timeout = Config::get('pusherer::timeout');	
+            // connect to pusher
+            $pusher = new Pusher($app_key, $app_secret , $app_id,$app_debug, $app_host, $app_port, $app_timeout);
 
-                // connect to pusher
-                	$pusher = new Pusher($app_key, $app_secret , $app_id,$app_debug, $app_host, $app_port, $app_timeout);
-
-        		// return pusher
-		        	return $pusher;
-
-		    });
+        	/ return pusher
+		    return $pusher;
+		});
 
 	    // Shortcut so developers don't need to add an Alias in app/config/app.php
-		    $this->app->booting(function()
-		    {
-		        $loader = AliasLoader::getInstance();
-		        $loader->alias('Pusherer', 'Artdarek\Pusherer\Facades\Pusherer');
-		    });
-
+	    $this->app->booting(function()
+	    {
+	        $loader = AliasLoader::getInstance();
+	        $loader->alias('Pusherer', 'Artdarek\Pusherer\Facades\Pusherer');
+	    });
 	}
 
 	/**
@@ -68,7 +65,7 @@ class PushererServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return [];
 	}
 
 }

@@ -1,48 +1,40 @@
-<?php 
+<?php
 
-return array( 
-	
+return [
+
 	/*
 	|--------------------------------------------------------------------------
 	| Pusher Config
 	|--------------------------------------------------------------------------
 	|
 	| Pusher is a simple hosted API for quickly, easily and securely adding
-	| realtime bi-directional functionality via WebSockets to web and mobile 
+	| realtime bi-directional functionality via WebSockets to web and mobile
 	| apps, or any other Internet connected device.
 	|
 	*/
 
-	/**
-	 * App id
-	 */
-	'app_id' => '', 
+	'default' => 'default',
 
-	/**
-	 * App key
-	 */
-	'key' => '',
+	'connections' => [
 
-	/**
-	 * App Secret
-	 */
-	'secret' => '',
-	/**
-	 * App Debug
-	 */
-	'debug' => false,
-	/**
-	 * App Host
-	 */
-	'host' => 'http://api.pusherapp.com',
-	/**
-	 * App Port
-	 */
-	'port' => 80,
-	/**
-	 * App Timeout
-	 */
-	'timeout' => 30,
-	
+		'default' => [
 
-);
+			'app_id'  => '',
+
+			'key'     => '',
+
+			'secret'  => '',
+
+			'debug'   => false,
+
+			'host'    => 'http://api.pusherapp.com',
+
+			'port'    => 80,
+
+			'timeout' => 30
+
+		]
+
+	]
+
+];
