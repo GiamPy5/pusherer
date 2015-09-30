@@ -1,8 +1,8 @@
 # Pusherer - Laravel 4 Service Provider
 
-Pusherer is a simple Pusher.com service provider for Laravel 4. 
-[Pusher](http://pusher.com/) ([Documentation](http://pusher.com/docs)) is a simple hosted API 
-for adding realtime bi-directional functionality via WebSockets to web and mobile apps, or 
+Pusherer is a simple Pusher.com service provider for Laravel 4.
+[Pusher](http://pusher.com/) ([Documentation](http://pusher.com/docs)) is a simple hosted API
+for adding realtime bi-directional functionality via WebSockets to web and mobile apps, or
 any other Internet connected device.
 
 ---
@@ -49,27 +49,36 @@ $ php artisan config:publish artdarek/pusherer
 Set your pusher.com credentials in ``app/config/packages/artdarek/pusherer/config.php``
 
 ```php
-return array( 
+return [
 
-	/**
-	 * App id
-	 */
-	'app_id' => '', 
+	'default' => 'default',
 
-	/**
-	 * App key
-	 */
-	'key' => '',
+	'connections' => [
 
-	/**
-	 * App Secret
-	 */
-	'secret' => ''	
+		'default' => [
 
-);
+			'app_id'  => '',
+
+			'key'     => '',
+
+			'secret'  => '',
+
+			'debug'   => false,
+
+			'host'    => 'http://api.pusherapp.com',
+
+			'port'    => 80,
+
+			'timeout' => 30
+
+		]
+
+	]
+
+];
 ```
 
-If you have not a Pusher account, just [sign up](https://app.pusherapp.com/accounts/sign_up) to get 
+If you have not a Pusher account, just [sign up](https://app.pusherapp.com/accounts/sign_up) to get
 your API key, App Id and Secret.
 
 
@@ -86,6 +95,6 @@ public function index() {
 	// Send notification to Pusher
 	$message = "This is just an example message!";
 	Pusherer::trigger('my-channel', 'my-event', array( 'message' => $message ));
-	
+
 }
 ```

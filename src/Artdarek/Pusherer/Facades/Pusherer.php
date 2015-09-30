@@ -1,4 +1,6 @@
-<?php namespace Artdarek\Pusherer\Facades;
+<?php
+
+namespace Artdarek\Pusherer\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

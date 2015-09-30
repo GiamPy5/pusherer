@@ -1,4 +1,6 @@
-<?php namespace Artdarek\Pusherer;
+<?php
+
+namespace Artdarek\Pusherer;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
@@ -12,7 +14,7 @@ class PushererServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Bootstrap the application events.
@@ -31,9 +33,12 @@ class PushererServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-	    // Register 'pushera' instance container to our 'Pusherer' object
+	    // Register 'pusherer' instance container to our 'Pusherer' object
 		$this->app['pusherer'] = $this->app->share(function($app)
 		{
+			$configurations = Config::get('pusherer::connections');
+			$default        = $configurations['default'];
+
 		    // connection credentials loaded from config
 	        $app_id      = Config::get('pusherer::app_id');
 	        $app_key     = Config::get('pusherer::key');
@@ -44,9 +49,17 @@ class PushererServiceProvider extends ServiceProvider {
 	        $app_timeout = Config::get('pusherer::timeout');
 
             // connect to pusher
-            $pusher = new Pusher($app_key, $app_secret , $app_id,$app_debug, $app_host, $app_port, $app_timeout);
+            $pusher = new Pusher(
+            	$default['key'],
+            	$default['app_id'],
+            	$default['secret'],
+            	$default['debug'],
+            	$default['host'],
+            	$default['port'],
+            	$default['timeout']
+            );
 
-        	/ return pusher
+        	// return pusher
 		    return $pusher;
 		});
 
@@ -65,7 +78,7 @@ class PushererServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return [];
+		return ['pusherer'];
 	}
 
 }
