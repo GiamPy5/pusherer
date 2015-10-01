@@ -14,7 +14,7 @@ class PushererServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Bootstrap the application events.
@@ -33,37 +33,13 @@ class PushererServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-	    // Register 'pusherer' instance container to our 'Pusherer' object
+	    // Register 'pusherer' instance container to our 'Pusherer' object.
 		$this->app['pusherer'] = $this->app->share(function($app)
 		{
-			$configurations = Config::get('pusherer::connections');
-			$default        = $configurations['default'];
-
-		    // connection credentials loaded from config
-	        $app_id      = Config::get('pusherer::app_id');
-	        $app_key     = Config::get('pusherer::key');
-	        $app_secret  = Config::get('pusherer::secret');
-	        $app_host    = Config::get('pusherer::host');
-	        $app_port    = Config::get('pusherer::port');
-	        $app_debug   = Config::get('pusherer::debug');
-	        $app_timeout = Config::get('pusherer::timeout');
-
-            // connect to pusher
-            $pusher = new Pusher(
-            	$default['key'],
-            	$default['app_id'],
-            	$default['secret'],
-            	$default['debug'],
-            	$default['host'],
-            	$default['port'],
-            	$default['timeout']
-            );
-
-        	// return pusher
-		    return $pusher;
+			return new Pusherer;
 		});
 
-	    // Shortcut so developers don't need to add an Alias in app/config/app.php
+	    // Shortcut so developers don't need to add an Alias in app/config/app.php.
 	    $this->app->booting(function()
 	    {
 	        $loader = AliasLoader::getInstance();
